@@ -1,0 +1,12 @@
+{
+  "name": "porgbot",
+  "version": "0.0.1",
+  "description": "The official unoffical porg bot",
+  "main": "porgbot.js",
+  "author": "Kuba Gasiorowski",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.3.2",
+    "winston": "^2.4.1"
+  }
+}
