@@ -5,6 +5,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const PREFIX = '^';
+const EMOTE1 = '<:porg:411257738744692760>';
+const EMOTE0 = '<:sadporg:411257697451769857>';
 
 client.on('ready', () => {
     console.log('Connected.');
@@ -20,24 +22,20 @@ client.on('message', message => {
 		var messageToSend = "";
 	
 		messageToSend += message.author + " sent a message";
-		console.log(message.author + " sent a message with content: " + message.cleanContent);
+		console.log(message.author.username + " sent a message with content: " + message.cleanContent);
 		
 		var messageContent = message.cleanContent;
 		var final_emoji_text = "";
 		var raw_binary = "";
 		
-		//Start at 1 to skip the prefix
 		for(var i = 1; i < messageContent.length; i++){
 			
 			console.log(i + ": " + messageContent.charCodeAt(i).toString(2) + '(' + messageContent.charAt(i) + ')');
 			
 			raw_binary += messageContent.charCodeAt(i).toString(2) + " ";
 			
-			if(i % 5 == 0)
+			if(i % 4 == 0)
 				raw_binary += '\n';
-			
-			//:smile:
-			//:stuck_out_tongue:
 			
 		}
 	
@@ -46,19 +44,22 @@ client.on('message', message => {
 			//Skip spaces
 			if(raw_binary.charAt(j) == ' ')
 				final_emoji_text += '\t';
-			else if(raw_binary.charAt(j) == '\n')
-				final_emoji_text += '\n';
-			else if(raw_binary.charAt(j) == '0')
-				final_emoji_text += ':smile:';
+			else if(raw_binary.charAt(j) == '\n'){
+			
+				channel.send(final_emoji_text);
+				final_emoji_text = "";
+				//final_emoji_text += '\n';
+			
+			}else if(raw_binary.charAt(j) == '0')
+				final_emoji_text += EMOTE0;
 			else if(raw_binary.charAt(j) == '1')
-				final_emoji_text += ':stuck_out_tongue:';
+				final_emoji_text += EMOTE1;
 			
 		}
 	
-		messageToSend = /* raw_binary + "\n\n\n" + */ final_emoji_text + "\n\n(" + message.cleanContent.substring(1) + ")";
+		channel.send(final_emoji_text);
 	
-		console.log("Final message length: " + messageToSend.length)
-	
+		messageToSend = "(" + message.cleanContent.substring(1) + ")";
 		channel.send(messageToSend);
 	
 	}
